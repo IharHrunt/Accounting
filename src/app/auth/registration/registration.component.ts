@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { UsersService } from '../../shared/services/users.service';
 import { User } from '../../shared/models/user.model';
 
+import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-registration',
@@ -22,7 +25,7 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails.bind(this)),
+      'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmail.bind(this)),
       'password': new FormControl(null, [Validators.required, Validators.minLength(6)]),
       'name': new FormControl(null, [Validators.required]),
       'agree': new FormControl(false, [Validators.requiredTrue])
@@ -43,18 +46,23 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  forbiddenEmails(control: FormControl): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.usersService.getUserByEmail(control.value)
-        .subscribe((user: User) => {
-          if (user) {
-            resolve({forbiddenEmail: true});
-          } else {
-            resolve(null);
-          }
-        });
-    });
+  forbiddenEmail(control: AbstractControl) {
+    return this.usersService.getUserByEmail(control.value)
+      .map(user => user ? { forbiddenEmail: true } : null);
   }
+
+  // forbiddenEmails(control: FormControl): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     this.usersService.getUserByEmail(control.value)
+  //       .subscribe((user: User) => {
+  //         if (user) {
+  //           resolve({forbiddenEmail: true});
+  //         } else {
+  //           resolve(null);
+  //         }
+  //       });
+  //   });
+  // }
 
 
 }
