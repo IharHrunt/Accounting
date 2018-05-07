@@ -13,6 +13,8 @@ export class AddCategoryComponent implements OnInit, OnDestroy {
 
   sub1: Subscription;
 
+  test1: number;
+
   @Output() onCategoryAdd = new EventEmitter<Category>();
 
   constructor(private categoriesService: CategoriesService) { }
@@ -21,7 +23,9 @@ export class AddCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub1) this.sub1.unsubscribe();
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
   }
 
   onSubmit(form: NgForm) {

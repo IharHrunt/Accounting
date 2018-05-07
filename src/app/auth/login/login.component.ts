@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../shared/models/user.model';
 import { Message } from '../../shared/models/message.model';
 import { UsersService } from '../../shared/services/users.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-login',
@@ -20,8 +23,12 @@ export class LoginComponent implements OnInit {
     private usersService: UsersService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private title: Title
+  ) {
+    title.setTitle('Accounting');
+  }
 
   ngOnInit() {
     this.message = new Message('danger', '');
@@ -32,6 +39,11 @@ export class LoginComponent implements OnInit {
             text: 'Now you can sign in',
             type: 'success'
           });
+        } else if (params['accessDenied']) {
+          this.showMessage({
+            text: 'Access denied, you have to login',
+            type: 'warning'
+          });
         }
       });
 
@@ -39,6 +51,10 @@ export class LoginComponent implements OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
     });
+
+    // this.form.patchValue({
+    //   email: 'my1@mail.ru'
+    // });
   }
 
   private showMessage(message: Message) {
@@ -50,7 +66,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const formData = this.form.value;
-    this.usersService.getUserByEmail(formData.email)
+    this.usersService.getUserByEmail(formData.email.toLowerCase())
       .subscribe((user: User) => {
         if (user) {
           if (user.password === formData.password) {

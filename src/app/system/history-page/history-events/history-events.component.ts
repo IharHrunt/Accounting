@@ -11,6 +11,10 @@ export class HistoryEventsComponent implements OnInit {
   @Input() categories: Category[] = [];
   @Input() events: WFMEvent[] = [];
 
+  searchValue = '';
+  searchPlaceholder = 'Search by amount';
+  searchField = 'amount';
+
   constructor() { }
 
   ngOnInit() {
@@ -25,6 +29,11 @@ export class HistoryEventsComponent implements OnInit {
       'label-danger': e.type === 'credit',
       'label-success': e.type === 'debet'
     };
+  }
+
+  changeCriteria(field: string) {
+    this.searchPlaceholder = 'Search by ' + field;
+    this.searchField = field;
   }
 
 }

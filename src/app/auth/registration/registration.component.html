@@ -1,24 +1,51 @@
 <p class="text-muted text-xs-center">Registration form</p>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()" >
-  
-  <div class="form-group" [ngClass]="{'has-error': form.get('email').invalid && form.get('email').touched}" >
-    <label for="email">Email</label>
-      <input
-        type="text"
-        class="form-control underlined"
-        id="email"
-        placeholder="Enter your email"
-        formControlName="email"
-      >
-      <span class="form-help-text" *ngIf="form.get('email').invalid && form.get('email').touched">
-        <span *ngIf="form.get('email')['errors']['required']">Email cannot be empty. </span>
-        <span *ngIf="form.get('email')['errors']['email']">Enter correct email. </span>
-        <span *ngIf="form.get('email')['errors']['forbiddenEmail']">Email is already in use. </span>
-    </span>    
-  </div>
 
-  <div class="form-group" [ngClass]="{'has-error': form.get('password').invalid && form.get('password').touched}">
+  <div formGroupName="emailGroup">
+
+    <div class="form-group" [ngClass]="{'has-error': (form.get('emailGroup.email').touched || 
+                                                     form. get('emailGroup.email').dirty) && 
+                                                     form.get('emailGroup.email').invalid}" >                                                
+      <label for="email">Email</label>
+        <input
+          type="text"
+          class="form-control underlined"
+          id="email"
+          placeholder="Enter your email"
+          formControlName="email"
+        >     
+        <span class="form-help-text" *ngIf="form.get('emailGroup.email').invalid && form.get('emailGroup.email').touched">
+          <span *ngIf="form.get('emailGroup.email').errors?.required">Email is required. </span>
+          <span *ngIf="form.get('emailGroup.email').errors?.email">Enter correct email address. </span>
+          <span *ngIf="form.get('emailGroup.email').errors?.forbiddenEmail">Email address is taken by another user. </span>
+        </span>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error': (form.get('emailGroup.emailConfirm').touched || 
+                                                     form. get('emailGroup.emailConfirm').dirty) && 
+                                                     (form.get('emailGroup.emailConfirm').invalid ||
+                                                     form.get('emailGroup').errors)
+                                                    }" >            
+      <label for="emailConfirm">Confirm email</label>
+        <input
+          type="text"
+          class="form-control underlined"
+          id="emailConfirm"
+          placeholder="Confirm your email"
+          formControlName="emailConfirm"
+        >
+        <span class="form-help-text" *ngIf="(form.get('emailGroup.emailConfirm').touched || 
+                                             form.get('emailGroup.emailConfirm').dirty) && 
+                                            (form.get('emailGroup.emailConfirm').errors ||
+                                             form.get('emailGroup').errors)">
+          <span *ngIf="form.get('emailGroup.emailConfirm').errors?.required">Confirm email address is required.</span>       
+          <span *ngIf="form.get('emailGroup').errors?.match">The confirmation does not match the email address.</span>   
+        </span>
+    </div>    
+  </div>  
+
+  <div class="form-group" [ngClass]="{'has-error': (form.get('password').invalid && form.get('password').touched) }">
     <label for="password">Password</label>
     <input
       type="password"
@@ -28,24 +55,21 @@
       formControlName="password"
     >
     <span class="form-help-text" *ngIf="form.get('password').invalid && form.get('password').touched" >
-      <span *ngIf="form.get('password')['errors']['required']">Password cannot be empty. </span>
-      <span *ngIf="form.get('password')['errors']['minlength']"> Password cannot be less than
-        {{ form.get('password')['errors']['minlength']['requiredLength'] }} chars. 
-        <!-- Current password is {{ form.get('password')['errors']['minlength']['actualLength'] }}. -->
+      <span *ngIf="form.get('password').errors?.required">Password cannot be empty. </span>
+      <span *ngIf="form.get('password').errors?.minlength"> Password cannot be less than
+        {{ form.get('password').errors?.minlength.requiredLength }} chars.         
       </span>
     </span>
   </div>
   
-  <div
-    class="form-group"
-    [ngClass]="{'has-error': form.get('name').invalid && form.get('name').touched}"
-  >
-    <label for="name">Имя</label>
+
+  <div  class="form-group" [ngClass]="{'has-error': form.get('name').invalid && form.get('name').touched}" >
+    <label for="name">Name</label>
     <input
       type="text"
       class="form-control underlined"
       id="name"
-      placeholder="Введите имя"
+      placeholder="Enter your name"
       formControlName="name"
     >
     <span class="form-help-text" *ngIf="form.get('name').invalid && form.get('name').touched">

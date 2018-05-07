@@ -9,14 +9,8 @@
     {
       "email": "admin5@mail.ru",
       "password": "12345678",
-      "name": "Igor",
-      "id": 4
-    },
-    {
-      "email": "admin2@mail.ru",
-      "password": "12345678",
       "name": "Alla",
-      "id": 5
+      "id": 2
     }
   ],
   "bill": {
@@ -46,48 +40,40 @@
       "type": "debet",
       "amount": 1250,
       "category": 2,
-      "date": "12.06.2017 19:49:02",
-      "description": "Подарили еду в гостях"
+      "date": "05.05.2018 19:49:02",
+      "description": "Cake from Mom"
     },
     {
       "id": 2,
       "type": "credit",
       "amount": 21300,
       "category": 1,
-      "date": "13.06.2017 19:49:02",
-      "description": "Купил посудомоечную машину"
+      "date": "04.05.2018 19:49:02",
+      "description": "Washing machine"
     },
     {
       "type": "debet",
       "amount": 1480,
       "category": 2,
-      "date": "17.06.2017 14:00:48",
+      "date": "07.05.2018 14:00:48",
       "id": 3,
-      "description": "Поход в окей с баллами. Бесплатная еда"
+      "description": "Free food"
     },
     {
       "type": "credit",
       "amount": 2470,
       "category": 2,
-      "date": "17.06.2017 14:00:58",
+      "date": "03.05.2018 14:00:58",
       "id": 4,
-      "description": "Закупка на неделю"
+      "description": "Shopping"
     },
     {
       "type": "credit",
       "amount": 4000,
       "category": 3,
-      "date": "10.06.2017 14:01:58",
+      "date": "01.05.2018 14:01:58",
       "id": 5,
-      "description": "Заправка + проход ТО"
-    },
-    {
-      "type": "debet",
-      "amount": 10000,
-      "category": 1,
-      "date": "03.05.2018 15:44:23",
-      "description": "вввв",
-      "id": 6
+      "description": "Gasoline"
     }
   ]
 }
